@@ -45,6 +45,12 @@ The initial two-hour blocks are eventually compacted into longer blocks in the b
 
 Note that a limitation of the local storage is that it is not clustered or replicated. Thus, it is not arbitrarily scalable or durable in the face of disk or node outages and should thus be treated as more of an ephemeral sliding window of recent data. However, if your durability requirements are not strict, you may still succeed in storing up to years of data in the local storage.
 
+## File system constraints
+
+Typical usage of Prometheus results in large numbers of small files. On traditional filesystems, this can result in depletion of inodes and disk-full errors; even when there is storage space available on the device.
+
+It is recommended to store Prometheus data on a filesystem that can dynamically allocate inodes, such as XFS. If that is not possible, you may need to tune your filesystem to increase the inode table size.
+
 ## Operational aspects
 
 Prometheus has several flags that allow configuring the local storage. The most important ones are:
